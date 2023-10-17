@@ -6,4 +6,5 @@ O objetivo do trabalho é a implementação de uma base de dados para localizaç
 
 Equipe: 
 - Juliana Zambon (jz22), GRR20224168
+- Millena Suiani Costa (msc22), GRR20221243
 
