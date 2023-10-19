@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#ifndef TRIE_H
+#define TRIE_H
 
 /*A base de dados conterá as palavras existentes nos arquivos organizadas
  usando árvores digitais (tries) possivelmente implementadas com remoção 
@@ -8,25 +12,25 @@
  para poder ser usada posteriormente. */
 
 // struct para representar um nó da trie
-typedef struct trie_node {
+typedef struct no_trie {
     int valor; // valor do nó
-    struct trie_node *filhos[26]; // ponteiros para os filhos
+    struct no_trie *filhos[26]; // ponteiros para os filhos
+    int fimDaPalavra; // flag para indicar o fim da palavra
+} no_trie;
 
-} trie_node;
+// Cria uma nova trie
+no_trie *cria_trie();
 
-//Cria uma nova trie
-trie_node *cria_trie();
+// Insere uma chave na trie
+void insere_chave(no_trie *raiz, char *chave, int valor);
 
-//Insere uma chave na trie
-void insere_chave(trie_node *root, char *key, int value);
+// Busca uma chave na trie
+int procura_chave(no_trie *raiz, char *chave);
 
-//Busca uma chave na trie
-int procura_chave(trie_node *root, char *key);
+// Remove uma chave da trie
+void remove_chave(no_trie *raiz, char *chave);
 
-//Remove uma chave da trie
-void remove_chave(trie_node *root, char *key);
-
-//Libera a memória alocada pela trie
-void destroi_trie(trie_node *root);
+// Libera a memória alocada pela trie
+void destroi_trie(no_trie *raiz);
 
 #endif
