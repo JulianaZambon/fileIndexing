@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
     }
 
     const char* base = argv[1];
-    const char* arquivo-texto = argv[2];
+    const char* texto = argv[2];
 
     // Abre o arquivo da base de dados
     FILE* base = fopen(base, "r+");
@@ -39,8 +39,8 @@ int main (int argc, char *argv[])
     }
 
     // Abre o arquivo texto
-    FILE* arquivo-texto = fopen(arquivo-texto, "r");
-    if (arquivo-texto == NULL) {
+    FILE* texto = fopen(texto, "r");
+    if (texto == NULL) {
         fprintf(stderr, "Erro ao abrir o arquivo texto.\n");
         return 1;
     }
@@ -50,7 +50,7 @@ int main (int argc, char *argv[])
 
     // Lê o arquivo texto e insere as palavras na base de dados
     char palavra[100];
-    while (fscanf(arquivo-texto, "%s", palavra) != EOF) {
+    while (fscanf(texto, "%s", palavra) != EOF) {
         insereTrie(raiz, palavra);
     }
 
@@ -58,7 +58,7 @@ int main (int argc, char *argv[])
     imprimeTrie(raiz, base);
 
     // Fecha os arquivos e libera a memória da Trie
-    fclose(arquivo-texto);
+    fclose(texto);
     fclose(base);
     destroiTrie(raiz);
 
