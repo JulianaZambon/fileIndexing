@@ -31,6 +31,14 @@ typedef struct no_trie {
 - `void insere_chave(no_trie *raiz, char *chave, int valor);`
   - Insere uma chave na trie;
 
+- `int procura_chave(no_trie *raiz, char *chave);`
+    - Busca uma chave na trie;
+
+- `void remove_chave(no_trie *raiz, char *chave);`
+    - Remove uma chave na trie;
+ 
+- `void destroi_trie(no_trie *raiz);`
+    - Libera a memória alocada para a trie;
 
 ### Aplicações: insere e procura
 - Função insere(base, texto) = Arquivo texto, caso exista, tem suas palavras encontradas inseridas numa estrutura trie, 
