@@ -8,3 +8,8 @@ Equipe:
 - Juliana Zambon (jz22), GRR20224168
 - Millena Suiani Costa (msc22), GRR20221243
 
+### Aplicação 1: insere.c
+
+
+### Aplicação 2: procura.c
+
