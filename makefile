@@ -1,13 +1,17 @@
 CFLAGS = -Wall -Wextra -g
 CC = gcc
 
-all: insere procura
+all: main aplicacoes
 
-insere: insere.o
-	$(CC) $(CFLAGS) -o insere insere.o
+main: main.o
+	$(CC) $(CFLAGS) -o main main.o
 
-procura: procura.o
-	$(CC) $(CFLAGS) -o procura procura.o
+main.o: main.c
+
+aplicacoes: aplicacoes.o
+	$(CC) $(CFLAGS) -o aplicacoes aplicacoes.o
+
+aplicacoes.o: aplicacoes.c
 
 clean:
-	rm -f insere procura *.o
+	rm -f *.o main aplicacoes
