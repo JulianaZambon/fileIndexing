@@ -8,6 +8,9 @@ Equipe:
 - Juliana Zambon (jz22), GRR20224168;
 - Millena Suiani Costa (msc22), GRR20221243.
 
+### Árvore digital (trie)
+
+
 ### Aplicação 1: insere.c
 
 
