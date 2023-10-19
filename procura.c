@@ -19,5 +19,41 @@
 
 int main (int argc, char* argv[])
 {
+    if (argc != 3) {
+        fprintf(stderr, "Uso correto: %s <arquivo da base de dados> <prefixo>\n", argv[0]);
+        return 1;
+    }
 
+    const char* base = argv[1];
+    const char* prefixo = argv[2];
+
+    // Abre o arquivo da base de dados
+    FILE* base = fopen(base, "r");
+
+    if (base == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo da base de dados.\n");
+        return 1;
+    }
+    
+    // Cria a Trie
+    Trie* raiz = criaTrie();
+
+    // Lê a base de dados e insere as palavras na Trie
+    char palavra[100];
+    while (fscanf(base, "%s", palavra) != EOF) {
+        insereTrie(raiz, palavra);
+    }
+
+    // Busca as palavras com o prefixo dado
+    Lista* lista = buscaTrie(raiz, prefixo);
+
+    // Imprime a lista
+    imprimeTrie(raiz, lista);
+
+    // Libera a memória da Trie e da lista
+    liberaTrie(raiz);
+    destroiTrie(raiz);
+
+    // Fecha o arquivo
+    fclose(base);
 }
