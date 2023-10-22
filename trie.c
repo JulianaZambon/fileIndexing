@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "trie.h"
 
 /*Inicializa uma nova trie alocando memória para 
@@ -91,7 +92,7 @@ void removeChave(nodo *raiz, char *chave) {
 void destroiTrie(nodo *raiz) {
     if (raiz) {
         for (int i = 0; i < 26; i++)
-            destroi_trie(raiz->filhos[i]);
+            destroiTrie(raiz->filhos[i]);
 
         free(raiz);
     }

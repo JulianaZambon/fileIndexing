@@ -1,17 +1,21 @@
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -std=c99 -g
+LDFLAGS = -lm
+
 CC = gcc
 
-all: main aplicacoes
+	objects = main.o aplicacoes.o trie.o
 
-main: main.o
-	$(CC) $(CFLAGS) -o main main.o
-
-main.o: main.c
-
-aplicacoes: aplicacoes.o
-	$(CC) $(CFLAGS) -o aplicacoes aplicacoes.o
+main: main.o aplicacoes.o trie.o
+	$(CC) -o main main.o aplicacoes.o trie.o $(LDFLAGS)
 
 aplicacoes.o: aplicacoes.c
+	$(CC) -c $(CFLAGS) aplicacoes.c
+
+trie.o: trie.c
+	$(CC) -c $(CFLAGS) trie.c
+
+main.o: main.c
+	$(CC) -c $(CFLAGS) main.c
 
 clean:
-	rm -f *.o main aplicacoes
+	rm -f $(objects) main

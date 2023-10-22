@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "trie.h"
 #include "aplicacoes.h"
@@ -20,7 +21,7 @@ int main() {
             base = fopen(nomeBase, "a");
             texto = fopen(textoPrefixo, "r");
 
-            if (texto != NULL) {
+            if (texto) {
                 fprintf(base, "[%s]\n", textoPrefixo);
                 insere(base, texto);
             }
@@ -28,10 +29,11 @@ int main() {
         } else if (strcmp(aplicacao, "procura") == 0) {
             base = fopen(nomeBase, "r");
 
-            if (base != NULL) {
+            if (base) {
                 procura(base, textoPrefixo);
                 fclose(base);
-            }
+            } else
+                fprintf(stderr, "Arquivo base não encontrado.\n");
         }
     }
     return 0;

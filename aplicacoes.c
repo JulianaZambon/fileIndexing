@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "trie.h"
 #include "aplicacoes.h"
 
@@ -9,7 +10,7 @@ void insere(FILE *base, FILE *texto) {
     nodo *raiz = inicializaTrie();
     char palavra[128];
 
-    //Se arquivo texto vazio, retorna 
+    //Se arquivo texto vazio, retorna
     if (texto == NULL) return;
 
     //Insere as palavras na trie
@@ -41,6 +42,7 @@ contém uma ou mais estruturas de dados trie.*/
 void procura(FILE *base, char *prefixo) {
     char linha[1024];
     char nomeArquivo[512];
+    nomeArquivo[0] = -1;
 
     while (fgets(linha, sizeof(linha), base) != NULL) {
         
@@ -51,7 +53,7 @@ void procura(FILE *base, char *prefixo) {
             havia outro nome armazenado, anula a string.*/
             if (nomeArquivo[0] != '\0') {
                 for (int i = strlen(nomeArquivo); i >= 0; i--)
-                    nomeArquivo[i] = NULL; 
+                    nomeArquivo[i] = '\0'; 
             }
 
             //Atribui novo nome de arquivo para a variavel
@@ -63,4 +65,7 @@ void procura(FILE *base, char *prefixo) {
         if (strstr(linha, prefixo) != NULL)
             fprintf(stdout, "%s %s\n", nomeArquivo, prefixo);
     }
+    
+    if (nomeArquivo[0] == -1)
+        fprintf(stderr, "Arquivo base não possuí parâmetros necessários.\n");
 }
