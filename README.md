@@ -9,41 +9,58 @@ Equipe:
 - Millena Suiani Costa (msc22), GRR20221243.
 
 ### Base de Dados (trie.c e trie.h)
-Os arquivos contém palavras que devem ser organizadas através de estruturas trie, ou seja, cada trie representa um arquivo.
+Os arquivos contém palavras que devem ser organizadas através de estruturas trie, ou seja, cada trie representa um conjunto de palavras. Cada uma das tries geradas são adicionadas em um arquivo base (que representa a base de dados).
 
 #### Estrutura de dados da Trie
 
 ##### Struct Nó da Trie
 
 ```c
-typedef struct no_trie {
-    int valor; // valor do nó
-    struct no_trie *filhos[26]; // ponteiros para os filhos
-    int fimDaPalavra; // flag para indicar o fim da palavra
-} no_trie;
+typedef struct nodo {
+    int caractere; //Valor do caractere armazenado no nó
+    struct nodo *filhos[52]; //Ponteiros para os filhos (minúsculos + maiúsculos)
+    int fimPalavra; //Flag para indicar o fim da palavra
+} nodo;
 ```
 
 ##### Funções Desenvolvidas
 
-- `no_trie *cria_trie();`
-  - Cria uma nova trie;
+- `nodo *inicializaTrie();`
+  - Inicializa uma nova trie alocando memória para 
+  o nodo raiz e definindo um filho para cada letra 
+  inicial possível das palavras;
 
-- `void insere_chave(no_trie *raiz, char *chave, int valor);`
-  - Insere uma chave na trie;
+- `void insereChave(nodo *raiz, char *chave);`
+  - Insere uma palavra na trie;
 
-- `int procura_chave(no_trie *raiz, char *chave);`
-    - Busca uma chave na trie;
+- `int procuraChave(nodo *raiz, char *chave);`
+  - Busca uma palavra na trie e verifica se está 
+  nela, se encontrar, retorna 1, se não, retorna 0;
 
-- `void remove_chave(no_trie *raiz, char *chave);`
-    - Remove uma chave na trie;
+- `void removeChave(nodo *raiz, char *chave);`
+  - Remove uma palavra da trie, se encontrá-la;
  
-- `void destroi_trie(no_trie *raiz);`
-    - Libera a memória alocada para a trie;
+- `void destroiTrie(nodo *raiz);`
+  - Libera a memória alocada para a trie.
 
-### Aplicações: insere e procura
-- Função insere(base, texto) = Arquivo texto, caso exista, tem suas palavras encontradas inseridas numa estrutura trie, 
-caso não, nada acontece. Arquivo base (caso não exista, é criado), caso a trie gerada não seja vazia, a recebe.
+### Aplicações (aplicacoes.c e aplicacoes.h)
 
-- Função procura(base, prefixo) = Busca na base de dados  e retorna na saída padrão stdout uma lista de arquivos que
-contenham palavras que iniciam com o prefixo fornecido (um arquivo por linha precedido do prefixo procurado e um espaço “arquivo-1 prefixo-1”). 
+##### Aplicação insere(base, texto) 
 
+Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. Inclui duas funções:
+
+- `void insere(FILE *base, FILE *texto);`
+  - Função que insere um texto em uma 
+  base de dados em formato de trie;
+ 
+- `void escreveTrie(FILE *base, nodo *atual, char *palavra, int nivel);`
+  - Função auxiliar para escrever trie no 
+  arquivo base de maneira recursiva.
+
+##### Aplicação procura(base, prefixo) 
+
+Busca prefixo indicado na base de dados e retorna, na saída padrão, uma lista de arquivos que o contenham. Inclui uma função: 
+
+- `void procura(FILE *base, char *prefixo);`
+  - Procura a palavra fornecida em uma base de dados que 
+  contém uma ou mais estruturas de dados trie.

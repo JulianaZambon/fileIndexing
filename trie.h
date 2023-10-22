@@ -1,36 +1,29 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #ifndef TRIE_H
 #define TRIE_H
 
-/*A base de dados conterá as palavras existentes nos arquivos organizadas
- usando árvores digitais (tries) possivelmente implementadas com remoção 
- de nós com filho único. Cada registro (palavra) indicará a lista de 
- arquivos onde a palavra acontece. A base deve ser guardada em arquivo 
- para poder ser usada posteriormente. */
+/*Struct para representar um nodo da trie.*/
+typedef struct nodo {
+    int caractere; //Valor do caractere armazenado no nó
+    struct nodo *filhos[52]; //Ponteiros para os filhos (minúsculas + maiúsculas)
+    int fimPalavra; //Flag para indicar o fim da palavra
+} nodo;
 
-// struct para representar um nó da trie
-typedef struct no_trie {
-    int valor; // valor do nó
-    struct no_trie *filhos[26]; // ponteiros para os filhos
-    int fimDaPalavra; // flag para indicar o fim da palavra
-} no_trie;
+/*Inicializa uma nova trie alocando memória para 
+o nodo raiz e definindo um filho para cada letra 
+inicial possível das palavras.*/
+nodo *inicializaTrie();
 
-// Cria uma nova trie
-no_trie *cria_trie();
+/*Insere uma palavra na trie.*/
+void insereChave(nodo *raiz, char *chave);
 
-// Insere uma chave na trie
-void insere_chave(no_trie *raiz, char *chave, int valor);
+/*Busca uma palavra na trie e verifica se está 
+nela, se encontrar, retorna 1, se não, retorna 0.*/
+int procuraChave(nodo *raiz, char *chave);
 
-// Busca uma chave na trie
-int procura_chave(no_trie *raiz, char *chave);
+/*Remove uma palavra da trie, se encontrá-la.*/
+void removeChave(nodo *raiz, char *chave);
 
-// Remove uma chave da trie
-void remove_chave(no_trie *raiz, char *chave);
-
-// Libera a memória alocada pela trie
-void destroi_trie(no_trie *raiz);
+/*Libera a memória alocada para a trie.*/
+void destroiTrie(nodo *raiz);
 
 #endif

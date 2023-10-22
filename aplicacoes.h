@@ -1,17 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #ifndef APLICACOES_H
 #define APLICACOES_H
 
-void insere(FILE *base, char *texto);
+/*Função que insere um texto em uma 
+base de dados em formato de trie.*/
+void insere(FILE *base, FILE *texto);
 
-void procura(FILE *base, char *texto);
+/*Função auxiliar para escrever trie no 
+arquivo base de maneira recursiva.*/
+void escreveTrie(FILE *base, nodo *atual, char *palavra, int nivel);
 
-void remove(FILE *base, char *texto);
-
-void imprime_trie(FILE *base, char *texto);
+/*Procura a palavra fornecida em uma base de dados que 
+contém uma ou mais estruturas de dados trie.*/
+void procura(FILE *base, char *prefixo);
 
 #endif
 
