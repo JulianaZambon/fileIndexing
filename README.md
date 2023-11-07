@@ -35,15 +35,15 @@ typedef struct nodo {
 
 ##### Aplicação insere(base, texto) 
 
-Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Caso hajam duas ou mais palavras iguais, provenientes de arquivos diferentes, o nome de seus arquivos são concatenados - separados por vírgulas, sem espaços entre si - e, na inserção dessas palavras no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses, como: PALAVRA1[ARQUIVO_A] PALAVRA1[ARQUIVO_B] ... 
-Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. Sua especificidades é a inserção das palavras no formato PALAVRA[ARQUIVO], como já mencionado anteriormente. 
+Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. <br>
+Caso hajam duas ou mais palavras iguais na trie, provenientes de arquivos diferentes, o nome de seus arquivos são concatenados na string nomeArquivo - esses, separados por vírgulas e sem espaços entre si - e, na inserção dessas palavras no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses: <br>PALAVRA1[ARQUIVO_A]<br>PALAVRA1[ARQUIVO_B]<br>...<br><br>
 A aplicação insere inclui duas funções:
 
-- `void insere(FILE *base, FILE *texto);`
+- `void insere(FILE *base, FILE *texto, char *nomeArqTexto);`
   - Função que insere um texto em uma 
   base de dados em formato de trie;
  
-- `void escreveTrie(FILE *base, nodo *atual, char *palavra, int nivel);`
+- `void escreveTrie(FILE *base, nodo *atual, char *prefixo);`
   - Função auxiliar para escrever trie no 
   arquivo base de maneira recursiva.
 
