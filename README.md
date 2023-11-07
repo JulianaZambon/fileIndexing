@@ -17,37 +17,27 @@ Os arquivos contém palavras que devem ser organizadas através de estruturas tr
 
 ```c
 typedef struct nodo {
-    int caractere; //Valor do caractere armazenado no nó
-    struct nodo *filhos[52]; //Ponteiros para os filhos (minúsculos + maiúsculos)
-    int fimPalavra; //Flag para indicar o fim da palavra
+    int caractere; //Valor do caractere armazenado no nó (ASCII)
+    struct nodo *filhos[52]; //Ponteiros para os filhos (letras minúsculas e maiúsculas)
+    char nomeArquivo[512]; //Nome do(s) arquivo(s) da palavra
 } nodo;
 ```
 
 ##### Funções Desenvolvidas
 
 - `nodo *inicializaTrie();`
-  - Inicializa uma nova trie alocando memória para 
-  o nodo raiz e definindo um filho para cada letra 
-  inicial possível das palavras;
 
 - `void insereChave(nodo *raiz, char *chave);`
-  - Insere uma palavra na trie;
 
-- `int procuraChave(nodo *raiz, char *chave);`
-  - Busca uma palavra na trie e verifica se está 
-  nela, se encontrar, retorna 1, se não, retorna 0;
-
-- `void removeChave(nodo *raiz, char *chave);`
-  - Remove uma palavra da trie, se encontrá-la;
- 
 - `void destroiTrie(nodo *raiz);`
-  - Libera a memória alocada para a trie.
 
 ### Aplicações (aplicacoes.c e aplicacoes.h)
 
 ##### Aplicação insere(base, texto) 
 
-Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. Inclui duas funções:
+Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Caso hajam duas ou mais palavras iguais, provenientes de arquivos diferentes, o nome de seus arquivos são concatenados - separados por vírgulas, sem espaços entre si - e, na inserção dessas palavras no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses, como: PALAVRA1[ARQUIVO_A] PALAVRA1[ARQUIVO_B] ... 
+Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. Sua especificidades é a inserção das palavras no formato PALAVRA[ARQUIVO], como já mencionado anteriormente. 
+A aplicação insere inclui duas funções:
 
 - `void insere(FILE *base, FILE *texto);`
   - Função que insere um texto em uma 

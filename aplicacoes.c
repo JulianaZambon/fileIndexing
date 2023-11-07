@@ -6,7 +6,7 @@
 
 /*Função que insere um texto em uma 
 base de dados em formato de trie.*/
-void insere(FILE *base, FILE *texto) {
+void insere(FILE *base, FILE *texto, char *nomeArqTexto) {
     nodo *raiz = inicializaTrie();
     char palavra[128];
 
@@ -15,57 +15,89 @@ void insere(FILE *base, FILE *texto) {
 
     //Insere as palavras na trie
     while (fscanf(texto, "%s", palavra) != EOF)
-        insereChave(raiz, palavra);
+        insereChave(raiz, palavra, nomeArqTexto);
 
     //Insere a trie no arquivo base
-    escreveTrie(base, raiz, "", 0);
+    escreveTrie(base, raiz, "");
 }
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
-void escreveTrie(FILE *base, nodo *atual, char *palavra, int nivel) {
+void escreveTrie(FILE *base, nodo *atual, char *prefixo) {
+    
     if (atual) {
-        palavra[nivel] = (atual->caractere < 26) ? (atual->caractere + 'a') : (atual->caractere - 26 + 'A');
+        char *parte = atual->nomeArquivo;
 
-        if (atual->fimPalavra) {
-            palavra[nivel + 1] = '\0';
-            fprintf(base, "%s\n", palavra);
+        /*Enquanto houverem vírgulas na string, ou seja, 
+        palavras iguais vindas de diferentes arquivos*/
+        while (1) {
+            char *virgula = strchr(parte, ',');
+            
+            if (virgula) {
+                int tamanho = virgula - parte;
+
+                /*Cria uma cópia do conteúdo que 
+                precede a vírgula e o escreve*/
+                char palavra[100];
+                strncpy(palavra, parte, tamanho);
+                palavra[tamanho] = '\0';
+                fprintf(base, "%s[%s]\n", prefixo, palavra);
+                
+                parte = virgula + 1;
+
+            } else {
+                
+                /*Se não houverem mais vírgulas, escreve 
+                a última e encerra o loop*/
+                if (*parte != '\0')
+                    fprintf(base, "%s[%s]\n", prefixo, parte);
+
+                break;
+            }
         }
 
-        for (int i = 0; i < 52; i++)
-            escreveTrie(base, atual->filhos[i], palavra, nivel + 1);
+        for (int i = 0; i < 52; i++) {
+            char proximo = (i < 26) ? (i + 'a') : (i - 26 + 'A');
+            char novoPrefixo[100];
+            sprintf(novoPrefixo, "%s%c", prefixo, proximo);
+            escreveTrie(base, atual->filhos[i], novoPrefixo);
+        }
     }
 }
 
-/*Procura a palavra fornecida em uma base de dados que 
-contém uma ou mais estruturas de dados trie.*/
+/*Procura o prefixo fornecido em uma base de dados que 
+contém a estrutura trie (procura prefixo entre simbolo e 
+faz um contador para verificar cada palavra encontrada)*/
 void procura(FILE *base, char *prefixo) {
     char linha[1024];
     char nomeArquivo[512];
-    nomeArquivo[0] = -1;
+    nomeArquivo[0] = '\0';
 
     while (fgets(linha, sizeof(linha), base) != NULL) {
-        
-        //Se identificar um nome de arquivo, armazena no array
-        if (linha[0] == '[') {
 
-            /*Se foi encontrado um novo nome de arquivo mas já
-            havia outro nome armazenado, anula a string.*/
-            if (nomeArquivo[0] != '\0') {
-                for (int i = strlen(nomeArquivo); i >= 0; i--)
-                    nomeArquivo[i] = '\0'; 
+        if (linha[0] == '[')
+            sscanf(linha, "[%[^]]]", nomeArquivo);
+
+        else if (strstr(linha, prefixo) != NULL) {
+            char palavra[512];
+            char arquivo[512];
+
+            if (sscanf(linha, "%[^(](%[^)])", palavra, arquivo) == 2) {
+                if (strncmp(palavra, prefixo, strlen(prefixo)) == 0)
+                    fprintf(stdout, "%s %s\n", prefixo, palavra, arquivo);
+            
             }
-
-            //Atribui novo nome de arquivo para a variavel
-            for (int i = 0; linha[i + 1] != ']'; i++)
-                nomeArquivo[i] = linha[i + 1];
-            nomeArquivo[strlen(nomeArquivo) - 1] = '\0';
         }
-        
-        if (strstr(linha, prefixo) != NULL)
-            fprintf(stdout, "%s %s\n", nomeArquivo, prefixo);
     }
-    
-    if (nomeArquivo[0] == -1)
-        fprintf(stderr, "Arquivo base não possuí parâmetros necessários.\n");
+
+    if (nomeArquivo[0] == '\0')
+        fprintf(stderr, "Arquivo base não possui parâmetros necessários.\n");
 }
+
+/*
+SAÍDA ESPERADA NO ARQUIVO BASE
+
+palavraA[arquivodapalavraA]
+palavraB[arquivodapalavraB]
+...
+*/

@@ -21,10 +21,8 @@ int main() {
             base = fopen(nomeBase, "a");
             texto = fopen(textoPrefixo, "r");
 
-            if (texto) {
-                fprintf(base, "[%s]\n", textoPrefixo);
-                insere(base, texto);
-            }
+            if (texto)
+                insere(base, texto, textoPrefixo);
 
         } else if (strcmp(aplicacao, "procura") == 0) {
             base = fopen(nomeBase, "r");
@@ -32,6 +30,7 @@ int main() {
             if (base) {
                 procura(base, textoPrefixo);
                 fclose(base);
+                
             } else
                 fprintf(stderr, "Arquivo base não encontrado.\n");
         }
