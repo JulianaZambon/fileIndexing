@@ -9,7 +9,6 @@ inicial possível das palavras.*/
 nodo *inicializaTrie() { 
     nodo *raiz = (nodo *) malloc(sizeof(nodo)); 
     raiz->caractere = -1; 
-    raiz->nomeArquivo[0] = "\0";
 
     for (int i = 0; i < 26; i++) 
         raiz->filhos[i] = NULL; 
@@ -25,9 +24,9 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     for (int i = 0; chave[i] != '\0'; i++) {
         char c = chave[i];
         
-        if (c >= "a" && c <= "z")
+        if (c >= 'a' && c <= 'z')
             letra = c - 'a';   
-        else if (c >= "A" && c <= "Z")
+        else if (c >= 'A' && c <= 'Z')
             letra = c - 'A';
         else
             continue;
@@ -35,7 +34,7 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
         /*Se não houver correspondência para a letra
         em questão, cria um novo nodo, se houver, 
         procura a próxima letra correspondente.*/
-        if (!atual->filhos[letra])
+        if (!(atual->filhos[letra]))
             atual->filhos[letra] = inicializaTrie();
 
         atual->caractere = letra;

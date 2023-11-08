@@ -6,7 +6,7 @@
 
 /*Função que insere um texto em uma 
 base de dados em formato de trie.*/
-void insere(FILE *base, FILE *texto, char *nomeArqTexto) {
+void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto) {
     nodo *raiz = inicializaTrie();
     char palavra[128];
 
@@ -18,12 +18,12 @@ void insere(FILE *base, FILE *texto, char *nomeArqTexto) {
         insereChave(raiz, palavra, nomeArqTexto);
 
     //Insere a trie no arquivo base
-    escreveTrie(base, raiz, "");
+    escreveTrieNaBase(base, raiz, "");
 }
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
-void escreveTrie(FILE *base, nodo *atual, char *prefixo) {
+void escreveTrieNaBase(FILE *base, nodo *atual, char *prefixo) {
     
     if (atual) {
         char *parte = atual->nomeArquivo;
@@ -60,7 +60,7 @@ void escreveTrie(FILE *base, nodo *atual, char *prefixo) {
             char proximo = (i < 26) ? (i + 'a') : (i - 26 + 'A');
             char novoPrefixo[100];
             sprintf(novoPrefixo, "%s%c", prefixo, proximo);
-            escreveTrie(base, atual->filhos[i], novoPrefixo);
+            escreveTrieNaBase(base, atual->filhos[i], novoPrefixo);
         }
     }
 }
@@ -68,7 +68,7 @@ void escreveTrie(FILE *base, nodo *atual, char *prefixo) {
 /*Procura o prefixo fornecido em uma base de dados que 
 contém a estrutura trie (procura prefixo entre simbolo e 
 faz um contador para verificar cada palavra encontrada)*/
-void procura(FILE *base, char *prefixo) {
+void procuraPalavrasPorPrefixo(FILE *base, char *prefixo) {
     char linha[1024];
     char nomeArquivo[512];
     nomeArquivo[0] = '\0';
@@ -84,7 +84,7 @@ void procura(FILE *base, char *prefixo) {
 
             if (sscanf(linha, "%[^(](%[^)])", palavra, arquivo) == 2) {
                 if (strncmp(palavra, prefixo, strlen(prefixo)) == 0)
-                    fprintf(stdout, "%s %s\n", prefixo, palavra, arquivo);
+                    fprintf(stdout, "%s %s\n", palavra, arquivo);
             
             }
         }

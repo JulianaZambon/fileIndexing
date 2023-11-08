@@ -8,12 +8,18 @@ Equipe:
 - Juliana Zambon (jz22), GRR20224168;
 - Millena Suiani Costa (msc22), GRR20221243.
 
+### Função Principal (main.c)
+Contém as estruturas necessárias para a execução das aplicações -- tais como nomes de arquivos e prefixos -- informadas na entrada padrão (stdin).<br>
+Imprime mensagens na saída de erro (stderr) caso fornecida chamada de função incorreta, ou não encontre algum dos arquivos necessários para a aplicação que se deseja executar (tais como o arquivo texto, no caso da inserção, ou o arquivo base, no caso da busca).<br>
+Executa o programa até que se depare com linha da entrada padrão (stdin) vazia.
+
 ### Base de Dados (trie.c e trie.h)
-Os arquivos contém palavras que devem ser organizadas através de estruturas trie, ou seja, cada trie representa um conjunto de palavras. Cada uma das tries geradas são adicionadas em um arquivo base (que representa a base de dados).
+Arquivos texto contém palavras que são organizadas e inseridas em uma estrutura trie. Independente de quantas chamadas de inserção forem feitas (e quantos arquivos diferentes forem disponibilizados), todos serão inseridos em uma mesma estrutura trie, implementada através das funções contidas em trie.c e trie.h.<br>
+Caso duas (ou mais) palavras iguais forem inseridas na trie, provenientes de arquivos diferentes, o nome de seus arquivos são concatenados na string nomeArquivo (preenchida sempre no nodo que representa o último caractere da palavra inserida), separados por vírgulas e sem espaços entre si.
 
 #### Estrutura de dados da Trie
 
-##### Struct Nó da Trie
+##### Struct Nodo da Trie
 
 ```c
 typedef struct nodo {
@@ -35,22 +41,17 @@ typedef struct nodo {
 
 ##### Aplicação insere(base, texto) 
 
-Faz com que o arquivo texto, caso exista, tenha suas palavras inseridas numa estrutura trie, caso não exista, nada acontece. Também faz com que o arquivo base (caso não exista, seja criado), caso a trie gerada não seja vazia, a recebe. <br>
-Caso hajam duas ou mais palavras iguais na trie, provenientes de arquivos diferentes, o nome de seus arquivos são concatenados na string nomeArquivo - esses, separados por vírgulas e sem espaços entre si - e, na inserção dessas palavras no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses: <br>PALAVRA1[ARQUIVO_A]<br>PALAVRA1[ARQUIVO_B]<br>...<br><br>
+Insere em uma estrutura trie (conforme descrito anteriormente) as palavras dispostas em um, ou mais, arquivos texto.<br>
+Também se utiliza de um arquivo base, caso existente, ou cria um novo, caso contráio, correspondente ao nome fornecido na entrada padrão (stdin) e insere nele as palavras depositadas na trie.<br>
+Na inserção de possíveis palavras duplicadas, provenientes de arquivos diferentes, no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses:<br><br>PALAVRA1[ARQUIVO_A]<br>PALAVRA1[ARQUIVO_B]<br>...<br><br>
 A aplicação insere inclui duas funções:
 
-- `void insere(FILE *base, FILE *texto, char *nomeArqTexto);`
-  - Função que insere um texto em uma 
-  base de dados em formato de trie;
+- `void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto);`
  
-- `void escreveTrie(FILE *base, nodo *atual, char *prefixo);`
-  - Função auxiliar para escrever trie no 
-  arquivo base de maneira recursiva.
+- `void escreveTrieNaBase(FILE *base, nodo *atual, char *prefixo);`
 
 ##### Aplicação procura(base, prefixo) 
 
-Busca prefixo indicado na base de dados e retorna, na saída padrão, uma lista de arquivos que o contenham. Inclui uma função: 
+Busca palavras que contenham o prefixo indicado na entrada padrão (stdin) e as imprime na saída padrão (stdout), sucedidas pelo arquivo texto que as originou. Inclui uma função: 
 
-- `void procura(FILE *base, char *prefixo);`
-  - Procura a palavra fornecida em uma base de dados que 
-  contém uma ou mais estruturas de dados trie.
+- `void procuraPalavrasPorPrefixo(FILE *base, char *prefixo);`
