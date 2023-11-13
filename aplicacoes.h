@@ -7,7 +7,7 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz);
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
-void escreveTrieNaBase(FILE *base, nodo *atual, char *prefixo);
+void escreveTrieNaBase(FILE *base, nodo *atual, char caractere);
 
 /*Procura a palavra fornecida em uma base de dados que 
 contém uma ou mais estruturas de dados trie.*/

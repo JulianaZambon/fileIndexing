@@ -9,8 +9,9 @@ inicial possível das palavras.*/
 nodo *inicializaTrie() { 
     nodo *raiz = (nodo *) malloc(sizeof(nodo)); 
     raiz->caractere = -1; 
+    raiz->nomeArquivo[0] = '\0';
 
-    for (int i = 0; i < 26; i++) 
+    for (int i = 0; i < 52; i++) 
         raiz->filhos[i] = NULL; 
     
     return raiz;
@@ -45,7 +46,7 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     palavra ao seu último caractere e, se outra palavra 
     que foi adicionada de outro arquivo for igual à essa 
     palavra em questão, concatena o nome de seus arquivos*/
-    char nomeArqAux[strlen(nomeArqTexto) + 1];    
+    char nomeArqAux[1024];    
     if (atual->nomeArquivo[0] == '\0') {
         strncpy(atual->nomeArquivo, nomeArqTexto, strlen(nomeArqTexto));
         atual->nomeArquivo[strlen(nomeArqTexto)] = '\0';
