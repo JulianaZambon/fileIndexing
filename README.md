@@ -46,7 +46,7 @@ Também se utiliza de um arquivo base, caso existente, ou cria um novo, caso con
 Na inserção de possíveis palavras duplicadas, provenientes de arquivos diferentes, no arquivo base, são reescritas por vezes equivalentes às nomenclaturas de seus arquivos de origem, seguidas por seus nomes entre parênteses:<br><br>PALAVRA1[ARQUIVO_A]<br>PALAVRA1[ARQUIVO_B]<br>...<br><br>
 A aplicação insere inclui duas funções:
 
-- `void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto);`
+- `void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz);`
  
 - `void escreveTrieNaBase(FILE *base, nodo *atual, char *prefixo);`
 

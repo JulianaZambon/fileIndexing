@@ -11,6 +11,7 @@ int main() {
     char *textoPrefixo = NULL; //Nome do arquivo texto ou prefixo
     FILE *base = NULL;
     FILE *texto = NULL;
+    nodo *raizTrie = inicializaTrie();
 
     /*Executa programa até que usuário entre com uma linha vazia*/
     while ((fgets(linha, sizeof(linha), stdin)) != NULL) {
@@ -31,7 +32,8 @@ int main() {
             texto = fopen(textoPrefixo, "r");
 
             if (texto)
-                insere(base, texto, textoPrefixo);
+                insereTextoNaTrie(base, texto, textoPrefixo, raizTrie);
+
             else
                 fprintf(stderr, "Arquivo texto não encontrado.\n");
 
@@ -44,7 +46,7 @@ int main() {
             base = fopen(nomeBase, "r");
 
             if (base) {
-                procura(base, textoPrefixo);
+                procuraPalavrasPorPrefixo(base, textoPrefixo);
                 fclose(base);
                 
             } else
@@ -54,8 +56,8 @@ int main() {
             
             /*Se formato de entrada inserido estiver incorreto, imprime na saída 
             de erros o formato requerido para correto funcionamento do programa*/
-            fprintf(stderr, "Formato de entrada requerido para inserção:\ninsere arquivoBase arquivoTexto
-            \n\nFormato de entrada requerido para busca:\nprocura arquivoBase prefixo");
+            fprintf(stderr, "Formato de entrada requerido para inserção:\ninsere arquivoBase arquivoTexto\n\n");
+            fprintf(stderr, "Formato de entrada requerido para busca:\nprocura arquivoBase prefixo\n");
         }
     }
            

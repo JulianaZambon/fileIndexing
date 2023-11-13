@@ -3,7 +3,7 @@
 
 /*Função que insere um texto em uma 
 base de dados em formato de trie.*/
-void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto);
+void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz);
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
