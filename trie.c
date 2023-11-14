@@ -9,7 +9,7 @@ inicial possível das palavras.*/
 nodo *inicializaTrie() { 
     nodo *raiz = (nodo *) malloc(sizeof(nodo)); 
     raiz->caractere = -1; 
-    raiz->nomeArquivo[0] = '\0';
+    raiz->nomeArquivo[0] = '\0'; // Transformar em ponteiro
 
     for (int i = 0; i < 52; i++) 
         raiz->filhos[i] = NULL; 
@@ -20,12 +20,11 @@ nodo *inicializaTrie() {
 /*Insere uma palavra na trie.*/
 void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     nodo* atual = raiz;
+    int len = strlen(chave);
     int letra;
 
     /*Faz o tratamento da string para que caracteres que
     não corresponderem à letras sejam desconsiderados*/
-    int len = strlen(chave);
-    
     for (int i = 0; i < len; i++) {
         if ((chave[i] < 'A' || chave[i] > 'Z') && (chave[i] < 'a' || chave[i] > 'z')) {
             for (int j = i; j < len - 1; j++)
@@ -40,12 +39,13 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     /*Faz a inserção de caracteres e (se 
     necessário) a criação de novos nodos*/
     for (int i = 0; chave[i] != '\0'; i++) {
-        letra = chave[i];
+        letra = (chave[i] >= 'A' && chave[i] <= 'Z') ? chave[i] - 'A' : chave[i] - 'a';
 
         if (atual && !atual->filhos[letra]) {
             atual->filhos[letra] = inicializaTrie();
             atual->filhos[letra]->caractere = letra;
         }
+        printf("%d\n", atual->caractere);
         atual = atual->filhos[letra];
     }
 

@@ -7,15 +7,19 @@
 /*Função que insere um texto em uma
 base de dados em formato de trie.*/
 void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) {
-    char palavra[128];
+    char linha[1024];    
+    char *palavra;
 
     /*Se arquivo texto vazio, retorna*/
     if (texto == NULL) return;
 
-    /*Insere as palavras na trie*/
-    while (fscanf(texto, "%s", palavra) != EOF) {
-        insereChave(raiz, palavra, nomeArqTexto);
-        printf("inseriu palavra %s\n", palavra);
+    while (fgets(linha, sizeof(linha), texto) != NULL) {
+        palavra = strtok(linha, " \t\n"); 
+             
+        while (palavra) {
+            insereChave(raiz, palavra, nomeArqTexto);
+            palavra = strtok(NULL, " \t\n");
+        }
     }
 
     escreveTrieNaBase(base, raiz, raiz->caractere);

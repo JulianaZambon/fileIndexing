@@ -1,4 +1,4 @@
-CFLAGS = -Wall -std=c99 -g
+CFLAGS = -Wall -std=c99 -g --debug
 LDFLAGS = -lm
 
 CC = gcc
