@@ -13,8 +13,10 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) 
     if (texto == NULL) return;
 
     /*Insere as palavras na trie*/
-    while (fscanf(texto, "%s", palavra) != EOF)
+    while (fscanf(texto, "%s", palavra) != EOF) {
         insereChave(raiz, palavra, nomeArqTexto);
+        printf("inseriu palavra %s\n", palavra);
+    }
 
     escreveTrieNaBase(base, raiz, raiz->caractere);
 }
@@ -43,7 +45,6 @@ void escreveTrieNaBase(FILE *base, nodo *atual, char caractere) {
     }
 
     for (int i = 0; i < 52; i++) {
-
         if (atual->filhos[i] != NULL) {
 
             if (i < 26)
