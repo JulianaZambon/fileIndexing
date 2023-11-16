@@ -5,7 +5,7 @@
 typedef struct nodo {
     int caractere; //Valor do caractere armazenado no nó (ASCII)
     struct nodo *filhos[52]; //Ponteiros para os filhos (letras minúsculas e maiúsculas)
-    char nomeArquivo[512]; //Nome do(s) arquivo(s) da palavra
+    char *nomeArquivo; //Nome do(s) arquivo(s) da palavra
 } nodo;
 
 /*Inicializa uma nova trie alocando memória para 

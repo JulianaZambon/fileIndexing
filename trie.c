@@ -7,9 +7,9 @@
 o nodo raiz e definindo um filho para cada letra 
 inicial possível das palavras.*/
 nodo *inicializaTrie() { 
-    nodo *raiz = (nodo *) malloc(sizeof(nodo)); 
+    nodo *raiz = (nodo *)malloc(sizeof(nodo)); 
     raiz->caractere = -1; 
-    raiz->nomeArquivo[0] = '\0'; // Transformar em ponteiro
+    raiz->nomeArquivo = NULL;
 
     for (int i = 0; i < 52; i++) 
         raiz->filhos[i] = NULL; 
@@ -17,62 +17,54 @@ nodo *inicializaTrie() {
     return raiz;
 }
 
-/*Insere uma palavra na trie.*/
 void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     nodo* atual = raiz;
-    int len = strlen(chave);
+    int tam = strlen(chave);
     int letra;
-
-    /*Faz o tratamento da string para que caracteres que
-    não corresponderem à letras sejam desconsiderados*/
-    for (int i = 0; i < len; i++) {
-        if ((chave[i] < 'A' || chave[i] > 'Z') && (chave[i] < 'a' || chave[i] > 'z')) {
-            for (int j = i; j < len - 1; j++)
-                chave[j] = chave[j + 1];
-        
-            chave[len - 1] = '\0';
-            len--;
-            i--;
-        }
-    }
 
     /*Faz a inserção de caracteres e (se 
     necessário) a criação de novos nodos*/
-    for (int i = 0; chave[i] != '\0'; i++) {
-        letra = (chave[i] >= 'A' && chave[i] <= 'Z') ? chave[i] - 'A' : chave[i] - 'a';
+    for (int i = 0; i < tam; i++) {
+        letra = (chave[i] >= 'A' && chave[i] <= 'Z') ? chave[i] - 'A' : (chave[i] >= 'a' && chave[i] <= 'z') ? chave[i] - 'a' : -1;
 
-        if (atual && !atual->filhos[letra]) {
-            atual->filhos[letra] = inicializaTrie();
-            atual->filhos[letra]->caractere = letra;
+        if (letra >= 0) {
+            if (atual && !atual->filhos[letra]) {
+                atual->filhos[letra] = inicializaTrie();
+                atual->filhos[letra]->caractere = letra;
+            }
+            atual = atual->filhos[letra];
         }
-        printf("%d\n", atual->caractere);
-        atual = atual->filhos[letra];
     }
 
     /*Atribui nome do arquivo em que está localizada a 
     palavra ao seu último caractere e, se outra palavra 
     que foi adicionada de outro arquivo for igual à essa 
     palavra em questão, concatena o nome de seus arquivos*/
-    char nomeArqAux[1024];
-
     if (atual) {
-        if (atual->nomeArquivo[0] == '\0') {
-            strncpy(atual->nomeArquivo, nomeArqTexto, strlen(nomeArqTexto));
-            atual->nomeArquivo[strlen(nomeArqTexto)] = '\0';
+        if (atual->nomeArquivo == NULL) {
+            atual->nomeArquivo = (char *)malloc(strlen(nomeArqTexto) + 1);
+            strcpy(atual->nomeArquivo, nomeArqTexto);
         
         } else {
-            sprintf(nomeArqAux, ",%s", nomeArqTexto);
-            strcat(atual->nomeArquivo, nomeArqAux);
+            size_t tam = strlen(atual->nomeArquivo);
+            size_t novoTam = tam + strlen(nomeArqTexto) + 2;
+        
+            atual->nomeArquivo = (char *)realloc(atual->nomeArquivo, novoTam);
+            strcat(atual->nomeArquivo, ",");
+            strcat(atual->nomeArquivo, nomeArqTexto);
+            //Somente adicionar se o nome do arquivo 
+            //anterior não for o mesmo
         }
     }
 }
 
 /*Libera a memória alocada para a trie.*/
 void destroiTrie(nodo *raiz) {
-    if (raiz) {
-        for (int i = 0; i < 26; i++)
-            destroiTrie(raiz->filhos[i]);
+    if (raiz == NULL) return;
+    
+    for (int i = 0; i < 52; i++)
+        destroiTrie(raiz->filhos[i]);
 
-        free(raiz);
-    }
+    free(raiz->nomeArquivo);
+    free(raiz);
 }

@@ -11,11 +11,11 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) 
     char *palavra;
 
     /*Se arquivo texto vazio, retorna*/
-    if (texto == NULL) return;
+    if (texto == NULL || feof(texto)) return;
 
     while (fgets(linha, sizeof(linha), texto) != NULL) {
         palavra = strtok(linha, " \t\n"); 
-             
+
         while (palavra) {
             insereChave(raiz, palavra, nomeArqTexto);
             palavra = strtok(NULL, " \t\n");
