@@ -28,7 +28,7 @@ int main() {
             caso necessário) correspondente ao nome fornecido pelo usuário na 
             entrada e insere nele as palavras disponíveis no arquivo texto. 
             Caso não encontre o arquivo texto, retorna erro na saída stderr.*/
-            base = fopen(nomeBase, "a");
+            base = fopen(nomeBase, "w");
             texto = fopen(textoPrefixo, "r");
 
             if (texto)
@@ -53,7 +53,6 @@ int main() {
                 fprintf(stderr, "Arquivo base não encontrado.\n");
         
         } else {
-            
             /*Se formato de entrada inserido estiver incorreto, imprime na saída 
             de erros o formato requerido para correto funcionamento do programa*/
             fprintf(stderr, "Formato de entrada requerido para inserção:\ninsere arquivoBase arquivoTexto\n\n");

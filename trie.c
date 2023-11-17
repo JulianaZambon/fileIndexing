@@ -25,14 +25,18 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     /* Faz a inserção de caracteres e (se 
     necessário) a criação de novos nodos */
     for (int i = 0; i < tam; i++) {
-        letra = (chave[i] >= 'A' && chave[i] <= 'Z') ? chave[i] - 'A' : (chave[i] >= 'a' && chave[i] <= 'z') ? chave[i] - 'a' : -1;
+        letra = (chave[i] >= 'A' && chave[i] <= 'Z')
+                    ? chave[i] - 'A'
+                    : (chave[i] >= 'a' && chave[i] <= 'z')
+                        ? chave[i] - 'a'
+                        : -1;
 
         if (letra >= 0) {
             if (atual && !atual->filhos[letra]) {
                 atual->filhos[letra] = inicializaTrie();
-                atual->filhos[letra]->caractere = letra + 'A'; // Ajusta o valor do caractere
+                atual->filhos[letra]->caractere = letra + 'A'; //Ajusta o valor do caractere
+                atual = atual->filhos[letra];
             }
-            atual = atual->filhos[letra];
         }
     }
 
@@ -47,8 +51,8 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
         
         } else {
             
-            /* Se já tiver sido adicionada a mesma palavra
-            mais de uma vez proveniente de um mesmo arquivo */
+            /*Se já tiver sido adicionada a mesma palavra
+            mais de uma vez proveniente de um mesmo arquivo*/
             if (!strstr(atual->nomeArquivo, nomeArqTexto)) {
                 size_t tam = strlen(atual->nomeArquivo);
                 size_t novoTam = tam + strlen(nomeArqTexto) + 2;

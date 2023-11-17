@@ -22,14 +22,12 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) 
         }
     }
 
-    escreveTrieNaBase(base, raiz);
+    escreveTrieNaBase(base, raiz->filhos[0]);
 }
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
 void escreveTrieNaBase(FILE *base, nodo *atual) {
-    if (atual == NULL)
-        return;
 
     if (atual->nomeArquivo != NULL) {
         char *arquivoOrigem = malloc(strlen(atual->nomeArquivo) + 1);
@@ -46,7 +44,7 @@ void escreveTrieNaBase(FILE *base, nodo *atual) {
 
     for (int i = 0; i < 52; i++) {
         if (atual->filhos[i] != NULL) {
-            fprintf(base, "%c", (char)(atual->filhos[i]->caractere + 'A'));
+            fprintf(base, "%c", atual->filhos[i]->caractere);
             escreveTrieNaBase(base, atual->filhos[i]);
         }
     }
