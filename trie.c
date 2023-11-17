@@ -8,7 +8,7 @@ o nodo raiz e definindo um filho para cada letra
 inicial possível das palavras.*/
 nodo *inicializaTrie() { 
     nodo *raiz = (nodo *)malloc(sizeof(nodo)); 
-    raiz->caractere = -1; 
+    raiz->caractere = '\0';
     raiz->nomeArquivo = NULL;
 
     for (int i = 0; i < 52; i++) 
@@ -22,38 +22,41 @@ void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     int tam = strlen(chave);
     int letra;
 
-    /*Faz a inserção de caracteres e (se 
-    necessário) a criação de novos nodos*/
+    /* Faz a inserção de caracteres e (se 
+    necessário) a criação de novos nodos */
     for (int i = 0; i < tam; i++) {
         letra = (chave[i] >= 'A' && chave[i] <= 'Z') ? chave[i] - 'A' : (chave[i] >= 'a' && chave[i] <= 'z') ? chave[i] - 'a' : -1;
 
         if (letra >= 0) {
             if (atual && !atual->filhos[letra]) {
                 atual->filhos[letra] = inicializaTrie();
-                atual->filhos[letra]->caractere = letra;
+                atual->filhos[letra]->caractere = letra + 'A'; // Ajusta o valor do caractere
             }
             atual = atual->filhos[letra];
         }
     }
 
-    /*Atribui nome do arquivo em que está localizada a 
+    /* Atribui nome do arquivo em que está localizada a 
     palavra ao seu último caractere e, se outra palavra 
     que foi adicionada de outro arquivo for igual à essa 
-    palavra em questão, concatena o nome de seus arquivos*/
+    palavra em questão, concatena o nome de seus arquivos */
     if (atual) {
         if (atual->nomeArquivo == NULL) {
             atual->nomeArquivo = (char *)malloc(strlen(nomeArqTexto) + 1);
             strcpy(atual->nomeArquivo, nomeArqTexto);
         
         } else {
-            size_t tam = strlen(atual->nomeArquivo);
-            size_t novoTam = tam + strlen(nomeArqTexto) + 2;
-        
-            atual->nomeArquivo = (char *)realloc(atual->nomeArquivo, novoTam);
-            strcat(atual->nomeArquivo, ",");
-            strcat(atual->nomeArquivo, nomeArqTexto);
-            //Somente adicionar se o nome do arquivo 
-            //anterior não for o mesmo
+            
+            /* Se já tiver sido adicionada a mesma palavra
+            mais de uma vez proveniente de um mesmo arquivo */
+            if (!strstr(atual->nomeArquivo, nomeArqTexto)) {
+                size_t tam = strlen(atual->nomeArquivo);
+                size_t novoTam = tam + strlen(nomeArqTexto) + 2;
+            
+                atual->nomeArquivo = (char *)realloc(atual->nomeArquivo, novoTam);
+                strcat(atual->nomeArquivo, ",");
+                strcat(atual->nomeArquivo, nomeArqTexto);
+            }
         }
     }
 }

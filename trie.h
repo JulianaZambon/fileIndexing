@@ -3,7 +3,7 @@
 
 /*Struct para representar um nodo da trie.*/
 typedef struct nodo {
-    int caractere; //Valor do caractere armazenado no nó (ASCII)
+    char caractere; //Valor do caractere armazenado no nó (ASCII)
     struct nodo *filhos[52]; //Ponteiros para os filhos (letras minúsculas e maiúsculas)
     char *nomeArquivo; //Nome do(s) arquivo(s) da palavra
 } nodo;
@@ -15,9 +15,6 @@ nodo *inicializaTrie();
 
 /*Insere uma palavra na trie.*/
 void insereChave(nodo *raiz, char *chave, char *nomeArqTexto);
-
-/*Compara palavra a ser inserida com palavras já existentes*/
-int comparaChave();
 
 /*Libera a memória alocada para a trie.*/
 void destroiTrie(nodo *raiz);

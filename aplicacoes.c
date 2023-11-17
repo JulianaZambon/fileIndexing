@@ -22,41 +22,32 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) 
         }
     }
 
-    escreveTrieNaBase(base, raiz, raiz->caractere);
+    escreveTrieNaBase(base, raiz);
 }
 
 /*Função auxiliar para escrever trie no 
 arquivo base de maneira recursiva.*/
-void escreveTrieNaBase(FILE *base, nodo *atual, char caractere) {
-    
+void escreveTrieNaBase(FILE *base, nodo *atual) {
     if (atual == NULL)
         return;
 
-    if (atual->nomeArquivo[0] != '\0') {
-        char *arquivoOrigem = atual->nomeArquivo;
-        char *indiceVirgula = strchr(arquivoOrigem, ',');
+    if (atual->nomeArquivo != NULL) {
+        char *arquivoOrigem = malloc(strlen(atual->nomeArquivo) + 1);
+        strcpy(arquivoOrigem, atual->nomeArquivo);
+        char *nomesArquivos = strtok(arquivoOrigem, ",");
 
-        fprintf(base, "%c[%s]\n", caractere, arquivoOrigem);    
-        
-        /*Enquanto houverem vírgulas na string, ou seja, 
-        palavras iguais vindas de diferentes arquivos*/
-        while (indiceVirgula) {
-            fprintf(base, "[%s]\n", arquivoOrigem);                
-            
-            arquivoOrigem = indiceVirgula + 1;
-            indiceVirgula = strchr(arquivoOrigem, ',');
+        while (nomesArquivos != NULL) {
+            fprintf(base, "[%s]", nomesArquivos);
+            nomesArquivos = strtok(NULL, ",");
         }
+        fprintf(base, "\n");
+        free(arquivoOrigem);
     }
 
     for (int i = 0; i < 52; i++) {
         if (atual->filhos[i] != NULL) {
-
-            if (i < 26)
-                fprintf(base, "%c", caractere);
-            else
-                fprintf(base, "%c", caractere);
-        
-            escreveTrieNaBase(base, atual->filhos[i], atual->filhos[i]->caractere);
+            fprintf(base, "%c", (char)(atual->filhos[i]->caractere + 'A'));
+            escreveTrieNaBase(base, atual->filhos[i]);
         }
     }
 }
