@@ -41,7 +41,7 @@ typedef struct nodo {
 
 ##### Aplicação insere(base, texto) 
 
-Insere em uma estrutura trie (conforme descrito anteriormente) as palavras dispostas em um, ou mais, arquivos texto.<br>
+Insere em uma estrutura trie (conforme descrito anteriormente) as palavras dispostas em um, ou mais, arquivos texto. Todo o caractere disposto no arquivo que não corresponda à letras minúsculas ou maiúsculas (não acentuadas) são desconsiderados, de forma que, no caso de uma palavra iniciar com um caractere acentuado, terá como o seu prefixo oficial o primeiro caractere não acentuado nela presente.<br>
 Também se utiliza de um arquivo base, caso existente, ou cria um novo, caso contráio, correspondente ao nome fornecido na stdin e insere nele as palavras depositadas na trie, seguidas do nome de seu arquivo de origem entre parêntese:<br><br>
 PALAVRA1[ARQUIVO_A]<br><br>
 Na inserção de possíveis palavras duplicadas, provenientes de arquivos diferentes, no arquivo base, são concatenados os nomes dos seus arquivos de origem entre parênteses:<br><br>PALAVRA1[ARQUIVO_A][ARQUIVO_B][...]<br><br>
@@ -49,7 +49,7 @@ A aplicação insere inclui duas funções:
 
 - `void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz);`
  
-- `void escreveTrieNaBase(FILE *base, nodo *atual, char caractere);`
+- `void escreveTrieNaBase(FILE *base, nodo *atual, char palavra[], int cont);`
 
 ##### Aplicação procura(base, prefixo) 
 
