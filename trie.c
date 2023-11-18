@@ -20,46 +20,45 @@ nodo *inicializaTrie() {
 void insereChave(nodo *raiz, char *chave, char *nomeArqTexto) {
     nodo* atual = raiz;
     int tam = strlen(chave);
-    int letra;
+    int índiceCaractere; //Índice do caractere a ser inserido no vetor filhos
 
-    /* Faz a inserção de caracteres e (se 
-    necessário) a criação de novos nodos */
+    /*Faz a inserção de caracteres e (se 
+    necessário) a criação de novos nodos*/
     for (int i = 0; i < tam; i++) {
-        letra = (chave[i] >= 'A' && chave[i] <= 'Z')
-                    ? chave[i] - 'A'
-                    : (chave[i] >= 'a' && chave[i] <= 'z')
-                        ? chave[i] - 'a'
-                        : -1;
-
-        if (letra >= 0) {
-            if (atual && !atual->filhos[letra]) {
-                atual->filhos[letra] = inicializaTrie();
-                atual->filhos[letra]->caractere = letra + 'A'; //Ajusta o valor do caractere
-                atual = atual->filhos[letra];
-            }
-        }
-    }
-
-    /* Atribui nome do arquivo em que está localizada a 
-    palavra ao seu último caractere e, se outra palavra 
-    que foi adicionada de outro arquivo for igual à essa 
-    palavra em questão, concatena o nome de seus arquivos */
-    if (atual) {
-        if (atual->nomeArquivo == NULL) {
-            atual->nomeArquivo = (char *)malloc(strlen(nomeArqTexto) + 1);
-            strcpy(atual->nomeArquivo, nomeArqTexto);
         
-        } else {
-            
-            /*Se já tiver sido adicionada a mesma palavra
-            mais de uma vez proveniente de um mesmo arquivo*/
-            if (!strstr(atual->nomeArquivo, nomeArqTexto)) {
-                size_t tam = strlen(atual->nomeArquivo);
-                size_t novoTam = tam + strlen(nomeArqTexto) + 2;
-            
-                atual->nomeArquivo = (char *)realloc(atual->nomeArquivo, novoTam);
-                strcat(atual->nomeArquivo, ",");
-                strcat(atual->nomeArquivo, nomeArqTexto);
+        /*Transforma um caractere ASCII da 
+        palavra em índice de vetor filhos*/
+        if (chave[i] >= 'A' && chave[i] <= 'Z')
+            índiceCaractere = chave[i] - 65;
+        else if (chave[i] >= 'a' && chave[i] <= 'z')
+            índiceCaractere = chave[i] - 71;
+        else
+            índiceCaractere = -1;
+
+        /*Se o caractere recebido é uma letra válida, insere-a 
+        no nodo correspondente de acordo com seu índice*/
+        if (índiceCaractere != -1 && atual) {
+            if (!atual->filhos[índiceCaractere]) {
+                atual->filhos[índiceCaractere] = inicializaTrie();
+                atual->filhos[índiceCaractere]->caractere = chave[i];
+            }
+            atual = atual->filhos[índiceCaractere];
+
+            /*Se for o último caractere da palavra, adiciona o nome do arquivo*/
+            if (i == tam - 1) {
+                if (atual->nomeArquivo == NULL) {
+                    atual->nomeArquivo = (char *)malloc(strlen(nomeArqTexto) + 1);
+                    strcpy(atual->nomeArquivo, nomeArqTexto);
+                
+                } else {
+                    if (!strstr(atual->nomeArquivo, nomeArqTexto)) {
+                        size_t tamNomeArquivo = strlen(atual->nomeArquivo);
+                        size_t novoTam = tamNomeArquivo + strlen(nomeArqTexto) + 2;
+                        atual->nomeArquivo = (char *)realloc(atual->nomeArquivo, novoTam);
+                        strcat(atual->nomeArquivo, ",");
+                        strcat(atual->nomeArquivo, nomeArqTexto);
+                    }
+                }
             }
         }
     }

@@ -3,9 +3,10 @@
 
 /*Struct para representar um nodo da trie.*/
 typedef struct nodo {
-    char caractere; //Valor do caractere armazenado no nó (ASCII)
-    struct nodo *filhos[52]; //Ponteiros para os filhos (letras minúsculas e maiúsculas)
+    char caractere; //Caractere armazenado no nó (ASCII)
     char *nomeArquivo; //Nome do(s) arquivo(s) da palavra
+    struct nodo *filhos[52]; //Ponteiros para os filhos (letras minúsculas e maiúsculas)
+    struct nodo *pai; //Ponteiro para o pai do caractere
 } nodo;
 
 /*Inicializa uma nova trie alocando memória para 
