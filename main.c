@@ -65,6 +65,7 @@ int main() {
     }
     
     destroiTrie(raizTrie);
+
     return 0;
 }
 
