@@ -36,6 +36,9 @@ int main() {
 
             else
                 fprintf(stderr, "Arquivo texto não encontrado.\n");
+            
+            fclose(texto);
+            fclose(base);
 
         } else if (strcmp(aplicacao, "procura") == 0) {
 
@@ -45,13 +48,14 @@ int main() {
             base, retorna erro na saída stderr.*/
             base = fopen(nomeBase, "r");
 
-            if (base) {
+            if (base)
                 procuraPalavrasPorPrefixo(base, textoPrefixo);
-                fclose(base);
                 
-            } else
+            else
                 fprintf(stderr, "Arquivo base não encontrado.\n");
-        
+            
+            fclose(base);
+
         } else {
             /*Se formato de entrada inserido estiver incorreto, imprime na saída 
             de erros o formato requerido para correto funcionamento do programa*/
@@ -59,10 +63,9 @@ int main() {
             fprintf(stderr, "Formato de entrada requerido para busca:\nprocura arquivoBase prefixo\n");
         }
     }
-
-    /*Libera memória alocada para a estrutura trie*/
+    
     destroiTrie(raizTrie);
-           
+
     return 0;
 }
 
