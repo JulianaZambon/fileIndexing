@@ -59,6 +59,9 @@ int main() {
             fprintf(stderr, "Formato de entrada requerido para busca:\nprocura arquivoBase prefixo\n");
         }
     }
+
+    /*Libera memória alocada para a estrutura trie*/
+    destroiTrie(raizTrie);
            
     return 0;
 }
