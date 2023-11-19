@@ -17,7 +17,6 @@ void insereTextoNaTrie(FILE *base, FILE *texto, char *nomeArqTexto, nodo *raiz) 
 
         while (palavra) {
             insereChave(raiz, palavra, nomeArqTexto);
-            printf("Escrita a palavra %s\n", palavra);
             palavra = strtok(NULL, " \t\n");
         }
     }
